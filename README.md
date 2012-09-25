@@ -11,10 +11,10 @@ Build it using maven.
 
 Then:
 
-        java -cp target/repeating-files-streaming-1.0-SNAPSHOT.jar ch.noisette.io.httpstream.HttpStreamServerMain [portNumber [chrootDir]]
+        java -cp target/repeating-files-streaming-*.jar ch.noisette.io.httpstream.HttpStreamServerMain [portNumber [chrootDir]]
 
 * `portNumber` set the port the streaming server will listen too. If not set, a free port will be randomly picked up
-* `chrootDir` is the base directory from where file will be streamed. If not set, the default chroot dir is ${user.dir}/repeating-files. Particular care is taken to not go out of this chroot doitr
+* `chrootDir` is the base directory from where file will be streamed. If not set, the default chroot dir is `${user.dir}/repeating-files`. Particular care is taken to not go out of this chroot doitr
 
 ##### Client Side
 
