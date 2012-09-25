@@ -9,6 +9,13 @@ import org.jboss.netty.handler.codec.http.HttpRequestDecoder;
 import org.jboss.netty.handler.codec.http.HttpResponseEncoder;
 import org.jboss.netty.handler.stream.ChunkedWriteHandler;
 
+/**
+ * 
+ * @author bperroud
+ * 
+ * Heavily inspired from {@see io.netty.example.http.file.HttpStaticFileServerPipelineFactory}.
+ * 
+ */
 public class HttpStreamServerPipelineFactory
     implements ChannelPipelineFactory
 {

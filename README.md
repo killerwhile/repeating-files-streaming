@@ -1,7 +1,7 @@
 Simple Files Streaming though HTTP
 =========================
 
-Java project that enables File Streaming through HTTP at blazing high throughput. Expect to max out your network interface. Based on [Netty.io](http://netty.io).
+Java project that enables File Streaming through HTTP at blazing high throughput. Expect to max out your network interface. Based on [Netty.io](http://netty.io) and heavily inspirated from [Http Static File Server](http://static.netty.io/3.5/xref/org/jboss/netty/example/http/file/package-summary.html).
 
 ### Usage
 

@@ -35,6 +35,15 @@ import org.slf4j.LoggerFactory;
 
 import ch.noisette.io.httpstream.channel.RepeatingFileRegion;
 
+/**
+ * 
+ * Read file with name equals to request URI from rootDir. Send the file to the caller with Zero-Copy.
+ * 
+ * @author bperroud
+ * 
+ * Heavily inspired from {@see io.netty.example.http.file.HttpStaticFileServerHandler}.
+ * 
+ */
 public class HttpStreamServerHandler
     extends SimpleChannelUpstreamHandler
 {

@@ -8,6 +8,12 @@ import org.jboss.netty.channel.FileRegion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * {@link FileRegion} that is able to repeat a given amount of time (or indefinitely} a file.
+ * 
+ * @author bperroud
+ *
+ */
 public class RepeatingFileRegion
     implements FileRegion
 {
