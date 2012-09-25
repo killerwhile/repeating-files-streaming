@@ -1,5 +1,6 @@
 package ch.noisette.io.httpstream;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,6 @@ public class BasicStreamTest
         final AsyncHttpClient c = new AsyncHttpClient();
 
         final String url = "http://127.0.0.1:" + server.getPort() + "/test1.txt?10";
-//        final String url = "http://127.0.0.1:" + server.getPort() + "/../../../../../../etc/passwd?10";
 
         final ListenableFuture<String> f = c.prepareGet( url ).execute( new AsyncHandler<String>()
         {
@@ -115,7 +115,14 @@ public class BasicStreamTest
         final CountDownLatch l = new CountDownLatch( 1 );
         final AsyncHttpClient c = new AsyncHttpClient();
 
-        final String url = "http://127.0.0.1:" + server.getPort() + "/../../../../../../etc/passwd?1";
+        // Compute relative path to find /etc/passwd.
+        int dirLevel = new File( System.getProperty( "user.dir" ) ).getCanonicalPath().split( File.separator ).length;
+
+        String url = "http://127.0.0.1:" + server.getPort();
+        for (int i = 0; i < dirLevel; i++) {
+            url += File.separator + "..";
+        }
+        url += "/etc/passwd?1";
 
         final ListenableFuture<String> f = c.prepareGet( url ).execute( new AsyncHandler<String>()
         {
@@ -174,7 +181,7 @@ public class BasicStreamTest
 
                 Assert.assertEquals( 0, c.get() );
 
-                return "OK";
+                return "NOK";
             }
 
         } );
@@ -186,7 +193,7 @@ public class BasicStreamTest
         c.close();
 
         final String completedString = f.get();
-        Assert.assertEquals( "OK", completedString );
+        Assert.assertEquals( "NOK", completedString );
 
     }
     
