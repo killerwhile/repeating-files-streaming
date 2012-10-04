@@ -25,11 +25,21 @@ public class RepeatingFileRegion
 
     private final Integer numberOfTimesToRepeat;
 
+    private final long totalSize;
+
     public RepeatingFileRegion( FileChannel file, long fileLength, Integer numberOfTimesToRepeat )
     {
         this.file = file;
         this.fileLength = fileLength;
         this.numberOfTimesToRepeat = numberOfTimesToRepeat;
+        if ( this.numberOfTimesToRepeat == null )
+        {
+            totalSize = Long.MAX_VALUE;
+        }
+        else
+        {
+            totalSize = this.fileLength * this.numberOfTimesToRepeat;
+        }
     }
 
     public long getPosition()
@@ -39,14 +49,7 @@ public class RepeatingFileRegion
 
     public long getCount()
     {
-        if ( numberOfTimesToRepeat == null )
-        {
-            return Long.MAX_VALUE;
-        }
-        else
-        {
-            return fileLength * numberOfTimesToRepeat;
-        }
+        return totalSize;
     }
 
     public boolean releaseAfterTransfer()
@@ -58,32 +61,8 @@ public class RepeatingFileRegion
         throws IOException
     {
 
-        long transfered = 0;
-        int i = 0;
-        while ( transfered < fileLength )
-        {
-            transfered += internalTransferTo( target, transfered, fileLength );
-
-            // watchdog to not infinite loop if the file is too big.
-            if ( i++ > 10 )
-            {
-                break;
-            }
-        }
-
-        return transfered;
-    }
-
-    private long internalTransferTo( WritableByteChannel target, long from, long to )
-        throws IOException
-    {
-
-        if ( to - from <= 0 )
-        {
-            throw new IllegalArgumentException( "position out of range. " + " (expected: " + from + " - " + to + ")" );
-        }
-
-        return file.transferTo( from, to, target );
+        long fileOffset = position % fileLength;
+        return file.transferTo( fileOffset, fileLength - fileOffset, target );
 
     }
 
